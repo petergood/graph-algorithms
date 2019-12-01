@@ -8,7 +8,7 @@ V, edges = ford_fulkerson.prepare_graph(file_name, dimacs.loadWeightedGraph)
 ans = sys.maxsize
 
 for v1 in range(1, V + 1):
-    for v2 in range(1, V + 1):
+    for v2 in range(v1, V + 1):
         if v1 == v2:
             continue
         flow = ford_fulkerson.ford_fulkerson(V, edges, v1, v2)
