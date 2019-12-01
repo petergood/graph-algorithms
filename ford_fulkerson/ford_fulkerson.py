@@ -1,11 +1,13 @@
 from commons import dimacs
 import collections
 import sys
+from copy import deepcopy
+
 
 # todo: use better data structure for representing graph
 
-def prepare_graph(file_name):
-    (V, L) = dimacs.loadDirectedWeightedGraph(file_name)
+def prepare_graph(file_name, loader=dimacs.loadDirectedWeightedGraph):
+    (V, L) = loader(file_name)
     edges = []
     for i in range(V + 1):
         edges.append([])
@@ -35,7 +37,7 @@ def find_path_bfs(V, edges, start_node, end_node):
             if edges[node][neigh] > 0 and not visited[neigh]:
                 queue.append(neigh)
                 visited[neigh] = True
-                parents[neigh] = (node, w, neigh) #parent, weight, current node
+                parents[neigh] = (node, w, neigh)  # parent, weight, current node
 
     return parents
 
@@ -49,14 +51,15 @@ def find_min_in_path(parents, end_node):
     return min(min_val, iter[1])
 
 
-def ford_fulkerson(V, edges, start_node, end_node):
+def ford_fulkerson(V, E, start_node, end_node):
+    edges = deepcopy(E)
     max_flow = 0
     while True:
         parents = find_path_bfs(V, edges, start_node, end_node)
         if parents[end_node] == ():
             break
 
-        min_val = find_min_in_path(parents, V)
+        min_val = find_min_in_path(parents, end_node)
         max_flow += min_val
         it = parents[end_node]
         while parents[it[0]] != ():
@@ -68,5 +71,3 @@ def ford_fulkerson(V, edges, start_node, end_node):
         edges[it[2]][it[0]] += min_val
 
     return max_flow
-
-

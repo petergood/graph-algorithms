@@ -26,6 +26,7 @@ def loadWeightedGraph(name):
             (a, b, c) = (int(s[1]), int(s[2]), int(s[3]))
             (x, y, c) = (min(a, b), max(a, b), c)
             L.append((x, y, c))
+            L.append((y, x, c))
 
     f.close()
     return (V, L)
