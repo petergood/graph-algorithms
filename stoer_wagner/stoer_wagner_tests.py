@@ -1,6 +1,7 @@
 import unittest
 import stoer_wagner
 
+
 class StoerWagnerTests(unittest.TestCase):
 
     def test_vertex_merging(self):
@@ -15,3 +16,13 @@ class StoerWagnerTests(unittest.TestCase):
         self.assertFalse(graph.nodes[2].is_active)
         self.assertEqual(0, len(graph.nodes[2].edges))
         self.assertFalse(2 in graph.nodes[3].edges)
+
+    def test_minimum_cut_phase(self):
+        G = stoer_wagner.load_graph("../datasets/stoer_wagner/simple")
+        s = stoer_wagner.minimum_cut_phase(G)
+        print(s)
+
+    def test_minimum_cut(self):
+        G = stoer_wagner.load_graph("../datasets/stoer_wagner/clique200")
+        minimum_cut = stoer_wagner.minimum_cut(G)
+        print(minimum_cut)
